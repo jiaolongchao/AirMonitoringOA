@@ -20,7 +20,7 @@ body{padding-bottom:20px;}
 .nav-list .nav-item.browser  .icon{ background:url(../../img/skin_/t10.png);}
 
 .content-list{}
-.content-list .content-item{float:left;border:1px solid #cfcfcf;margin:0 10px 10px 0;width:382px;}
+.content-list .content-item{float:left;border:1px solid #cfcfcf;margin:0 10px 10px 0;width:100%;}
 .content-list .content-item .content-hd{height:36px; font-size:14px; line-height:36px;padding-left:15px;background:url(../../img/skin_/toolbarbg.png);border-bottom:1px solid #cfcfcf; cursor:move;}
 .content-list .content-item .content-hd .opt{float:right;margin-right:10px;*margin:13px 5px 0 0;}
 .content-list .content-item .content-hd .opt span{display:inline-block;width:12px;height:12px; cursor:pointer;*margin-right:5px;}
@@ -31,6 +31,8 @@ body{padding-bottom:20px;}
 
 .content-list .content-item .content-bd{height:170px;color:#000; overflow:auto; background:#fff;width:100%;}
 .content-list .content-item .content-bd .content-list{padding:10px;}
-.content-list .content-item .content-bd .content-list-item {margin-bottom:10px;overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
+.content-list .content-item .content-bd .content-list-item {margin-bottom:12px;overflow:hidden; white-space:nowrap; text-overflow:ellipsis; position: relative;}
 .content-list .content-item .content-bd .content-list-item .icon{*position:relative;*top:-3px;display:inline-block;margin-right:5px;width:8px;height:9px; background:url(../../img/skin_/plist.png);}
 .content-list .content-item .content-bd .content-list-item a{color:#000;}
+.content-list .content-item .content-bd .content-list-item .con-operation{ position: absolute; right: 0;}
+.content-list .content-item .content-bd .content-list-item .con-operation a{ display: inline-block; margin-right:10px;}
