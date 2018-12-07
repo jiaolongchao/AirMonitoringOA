@@ -28,33 +28,9 @@
                         </span> -->
                     	<span class="title">文章列表</span>
                     </h2>
-                    <div class="content-bd">
-                    	<ul class="content-list things">
-                        	<li class="content-list-item">
-                            	<i class="icon"></i>
-                                <a href="javascript:;">查干湖冬捕壮观景象</a>
-                                <span class="con-operation"><a href="javascript:void()">编辑</a><a href="javascript:void()">删除</a></span>
-                            </li>
-                            <li class="content-list-item">
-                            	<i class="icon"></i>
-                                <a href="javascript:;">江西新余：一座城为重病男童圆梦</a>
-                                <span class="con-operation"><a href="javascript:void()">编辑</a><a href="javascript:void()">删除</a></span>
-                            </li>
-                            <li class="content-list-item">
-                            	<i class="icon"></i>
-                                <a href="javascript:;">学生建4.5平米1室1厅1厨1卫 欲申请专利</a>
-                                <span class="con-operation"><a href="javascript:void()">编辑</a><a href="javascript:void()">删除</a></span>
-                            </li>
-                            <li class="content-list-item">
-                            	<i class="icon"></i>
-                                <a href="javascript:;">央视直播曝光中纪委办公区</a>
-                                <span class="con-operation"><a href="javascript:void()">编辑</a><a href="javascript:void()">删除</a></span>
-                            </li>
-                            <li class="content-list-item">
-                            	<i class="icon"></i>
-                                <a href="javascript:;">盘点那些年曾“脱光光”的十大女星</a>
-                                <span class="con-operation"><a href="javascript:void()">编辑</a><a href="javascript:void()">删除</a></span>
-                            </li>
+                    <div class="content-bd" style="height:auto">
+                    	<ul class="content-list things" id="content-list">
+                        	
                         </ul>
                     </div>
                 </li>
@@ -75,7 +51,6 @@
 		  revert: true,
 		  handle:'h2'
 		});
-		
 	});
 	
 function resizeWidth (){
@@ -85,5 +60,36 @@ function resizeWidth (){
 		$('.content-item').width(($('#main').width() / 3) - 15);	
 	}	
 }
+function getList(){
+    $.ajax({
+        url:window.HTTP_URL + 'air/news',
+        type:'get',
+        success:function(res){
+            var data = res.data;
+            if(res.code == 200){
+                var html = '';
+                for(var i=0;i<data.length; i++){
+                    html += '<li class="content-list-item">'+
+                            	'<i class="icon"></i>'+ data[i].title + 
+                                '<span class="con-operation"><a href="javascript:void()">编辑</a><a href="javascript:void()" class="delArticle">删除</a></span>'+
+                            '</li>'
+                }
+                $('#content-list').html(html)
+            }
+        },
+        error:function(){
+        }
+    })
+}
+getList();
+
+$(function(){
+    function delArticle(){
+    $('#content-list li').bind('click',function(env){
+        console.log($(this))
+    })
+}
+    delArticle();
+})
 </script>
 </html>

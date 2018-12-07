@@ -1,6 +1,5 @@
 
 $(document).ready(function(){
-	
 	// 去除虚线框（会影响效率）
 	$("a,input:checkbox,input:radio,button,input:button").live('focus',function(){$(this).blur();});
 	
@@ -103,3 +102,9 @@ function resize(resizeHandle){
 	});
 	
 }
+
+function returnUrl(){
+	return 'http://192.168.1.8:8762/'
+}
+
+window.HTTP_URL = 'http://192.168.1.8:8762/'
