@@ -134,7 +134,6 @@
 
         //为编辑器实例添加一个路径，这个不能被注释
         UMEDITOR_HOME_URL : URL
-
         //图片上传配置区
         ,imageUrl:'http://192.168.1.8:8762/air/news/upload'            //图片上传提交地址
         ,imagePath:'http://192.168.1.8:8762/imgs/'                    //图片修正地址，引用了fixedImagePath,如有特殊需求，可自行配置
