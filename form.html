@@ -7,14 +7,14 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/WdatePicker.css" />
     <link rel="stylesheet" type="text/css" href="css/skin_/form.css" />
-    <!-- <link href="umeditor/themes/default/_css/umeditor.css" type="text/css" rel="stylesheet"> -->
     <link href="modules/upload/css/upload.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/global.js"></script>
     <script type="text/javascript" src="modules/upload/js/ajaxfileupload.js"></script>
-    <!-- <script type="text/javascript" src="js/jquery.select.js"></script>-->
     <script type="text/javascript" src="js/WdatePicker.js"></script>
+    <!-- 配置文件 -->
     <script type="text/javascript" src="ueditor/ueditor.config.js"></script>
+    <!-- 编辑器源码文件 -->
     <script type="text/javascript" src="ueditor/ueditor.all.js"></script>
     <script type="text/javascript" src="ueditor/lang/zh-cn/zh-cn.js"></script>
     <script type="text/javascript">
@@ -65,7 +65,10 @@
                         <label><span class="impInfo">*</span>文章内容</label>
                         <div class="kv-item-content">
                             <!-- <textarea placeholder="文章内容" id="content" style="width:800px;height:240px;"></textarea> -->
-                            <script id="ueditor" name="ueditor" type="text/plain"></script>
+                            <!-- 加载编辑器的容器 -->
+                            <form action="/" method="post">
+                                <script id="ueditor" name="ueditor" type="text/plain"></script>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -81,8 +84,8 @@
 <script type="text/javascript">
     $('select').select();
     showRemind('input[type=text],textarea', 'color5');
-    //var um = UM.getEditor('content');
-    var ue = UE.getEditor('ueditor', {
+
+    var ue = UE.getEditor('ueditor', { //实例化编辑器
         initialFrameWidth: 800,
         initialFrameHeight: 240
     });
@@ -104,6 +107,8 @@
             return this._bkGetActionUrl.call(this, action);
         }
     }
+
+    //对编辑器的操作最好在编辑器ready之后再做
     ue.ready(function () {
         var content = $('#content').val();
         ue.setContent(content);
@@ -111,6 +116,7 @@
     function getContent() {
         return UE.getEditor('ueditor').getContent();
     }
+
     $('#addArticle').click(function () {
         var title = $('#title').val();
         var content = ue.getContent();
