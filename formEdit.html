@@ -78,7 +78,7 @@
                 </div>
 
                 <div class="buttons">
-                    <input class="button" type="button" value="确认添加" id='addArticle' />
+                    <input class="button" type="button" value="确认修改" id='addArticle' />
                 </div>
             </div>
         </div>
@@ -120,7 +120,11 @@
     function getContent() {
         return UE.getEditor('ueditor').getContent();
     }
-    
+
+    $(function(){
+        console.log('articlId',window.articlId) //获取到要修改的文章id
+    })
+
     $('#addArticle').click(function () {
         var title = $('#title').val();
         var content = ue.getContent();

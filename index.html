@@ -30,7 +30,15 @@
                     </h2>
                     <div class="content-bd" style="height:auto">
                     	<ul class="content-list things" id="content-list">
-                        	
+                        	<li class="content-list-item" data-index = "1" data-id='1'><i class="icon"></i>dddddd1
+                                <span class="con-operation"><span class="editArticle">编辑</span><span class="delArticle">删除</span></span>
+                            </li>
+                            <li class="content-list-item"  data-index = "2" data-id='2'><i class="icon"></i>dddddd2
+                                <span class="con-operation"><span class="editArticle">编辑</span><span class="delArticle">删除</span></span>
+                            </li>
+                            <li class="content-list-item"  data-index = "3" data-id='3'><i class="icon"></i>dddddd3
+                                <span class="con-operation"><span class="editArticle">编辑</span><span class="delArticle">删除</span></span>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -69,27 +77,32 @@ function getList(){
             if(res.code == 200){
                 var html = '';
                 for(var i=0;i<data.length; i++){
-                    html += '<li class="content-list-item">'+
-                            	'<i class="icon"></i>'+ data[i].title + 
-                                '<span class="con-operation"><a href="javascript:void()">编辑</a><a href="javascript:void()" class="delArticle">删除</a></span>'+
+                    html += '<li class="content-list-item" data-index = '+ data[i].id +'><i class="icon"></i>'+ data[i].title + 
+                                '<span class="con-operation"><span class="editArticle">重新编辑</span><span class="delArticle">删除</span></span>'+
                             '</li>'
                 }
                 $('#content-list').html(html)
             }
         },
-        error:function(){
+        error:function(err){
+            //console.log(err)
         }
     })
 }
 getList();
 
-$(function(){
-    function delArticle(){
+function delArticle(){
     $('#content-list li').bind('click',function(env){
-        console.log($(this))
+        var id = $(this).attr('data-id');
+        if($(env.target).hasClass('delArticle')){ // 删除
+            $(this).remove();
+        }else if($(env.target).hasClass('editArticle')){ //编辑
+            $(window.parent.document).find('#editLi').trigger("click"); //跳转到发布文章的页面
+            //$(parent.frames["m2"]).find('#addArticle').trigger('click','edit',id);
+            parent.frames["m6"].articlId = 'xabxdfasdfasdfaadad';
+        }
     })
 }
-    delArticle();
-})
+delArticle();
 </script>
 </html>

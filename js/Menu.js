@@ -17,12 +17,12 @@ Menu.prototype._createContent = function($this){
 		name = $this.text(),
 		href = $this.attr('href');
 	if($this.is(this.defaultSelect)){
-		var $tab = $('<li data-id="'+ id +'" data-default="default"><a href="javascript:;" class="ue-clear"><span>'+ name +'</span></a></li>');	
+		var $tab = $('<li name="m'+ id +'" data-id="'+ id +'" data-default="default"><a href="javascript:;" class="ue-clear"><span>'+ name +'</span></a></li>');	
 	}else{
-		var $tab = $('<li data-id="'+ id +'"><a href="javascript:;" class="ue-clear"><span>'+ name +'</span><i class="close-tab"></i></a></li>');	
+		var $tab = $('<li name="m'+ id +'" data-id="'+ id +'"><a href="javascript:;" class="ue-clear"><span>'+ name +'</span><i class="close-tab"></i></a></li>');	
 	}
 	
-	var $iframe= $('<iframe data-id="'+ id +'" width="100%" height="100%" frameborder="0" src="'+ href +'"></iframe>');
+	var $iframe= $('<iframe name="m'+ id +'" data-id="'+ id +'" width="100%" height="100%" frameborder="0" src="'+ href +'"></iframe>');
 	
 	$iframe.height($("#bd").height() - $(".tab").height()-8);
 	 
