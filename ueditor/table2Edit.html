@@ -1,0 +1,328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/skin_/form.css" />
+	<link rel="stylesheet" type="text/css" href="css/WdatePicker.css" />
+	<link rel="stylesheet" type="text/css" href="css/skin_/table.css" />
+	<title>表格</title>
+	<style>
+		.ui-table {
+			border: 1px solid #cfcfcf;
+			width: 80%;
+			margin-bottom: 10px;
+		}
+
+		.ui-table .headtr th {
+			height: 40px;
+			padding-left: 5px;
+			border-left: 1px solid #D4DFE7;
+			border-right: 0;
+			background: url(img/skin_/thbg.png);
+		}
+
+		.ui-table td {
+			height: 35px;
+			padding-left: 5px;
+		}
+
+		.ui-table tr {
+			border-bottom: 1px dotted #bfbfbf;
+		}
+
+		.ui-table-thTitle {
+			white-space: nowrap;
+			color: #000;
+		}
+
+		.ui-table input {
+			width: 80px;
+		}
+
+		.insertTable {
+			margin-bottom: 10px;
+		}
+
+		.insertTable input {
+			margin-right: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="container">
+		<div id="hd"></div>
+		<div id="bd">
+			<div id="main">
+				<div class="table">
+					<table class="ui-table" id="tableDate">
+						<tr class="headtr">
+							<th class="ui-table-thTitle">检测区域</th>
+							<th class="ui-table-thTitle">PM2.5 (细颗粒物)</th>
+							<th class="ui-table-thTitle">CO2 (二氧化碳)</th>
+							<th class="ui-table-thTitle">HCHO/CH2 (甲醛)</th>
+							<th class="ui-table-thTitle">VOCS (挥发性有机物)</th>
+						</tr>
+						<tr class="trData">
+							<td>室外测试值</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+						</tr>
+						<tr class="trData">
+							<td>6层东区前台</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+						</tr>
+						<tr class="trData">
+							<td>6层南侧办公区</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+						</tr>
+						<tr class="trData">
+							<td>西区前台</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+						</tr>
+						<tr class="trData">
+							<td>北侧办公区</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+						</tr>
+						<tr class="trData">
+							<td>服务大厅</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+						</tr>
+						<tr class="trData">
+							<td>5B18办公区</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+						</tr>
+						<tr class="trData">
+							<td>B3值班室</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+						</tr>
+						<tr class="trData">
+							<td>室内测试平均值</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+							<td>
+								<input type="tel" />
+							</td>
+						</tr>
+						<tr class="trData constant">
+							<td>健康值</td>
+							<td>
+								<input type="tel" value="35<检测值" />
+							</td>
+							<td>
+								<input type="tel" value="1000<检测值" />
+							</td>
+							<td>
+								<input type="tel" value="0.100<检测值" />
+							</td>
+							<td>
+								<input type="tel" value="0.600<检测值" />
+							</td>
+						</tr>
+						<tr class="trData constant">
+							<td>一般值</td>
+							<td>
+								<input type="tel" value="检测值<150" />
+							</td>
+							<td>
+								<input type="tel" value="检测值<2000" />
+							</td>
+							<td>
+								<input type="tel" value="检测值<0.300" />
+							</td>
+							<td>
+								<input type="tel" value="检测值<1.00" />
+							</td>
+						</tr>
+						<tr class="trData constant">
+							<td>超标值</td>
+							<td>
+								<input type="tel" value="检测值>150" />
+							</td>
+							<td>
+								<input type="tel" value="检测值>2000" />
+							</td>
+							<td>
+								<input type="tel" value="检测值>0.300" />
+							</td>
+							<td>
+								<input type="tel" value="检测值>1.00" />
+							</td>
+						</tr>
+					</table>
+					<div class="search-button">
+						<input class="button" type="button" value="生成检测数据" style="margin-left:0" id="addTable" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/WdatePicker.js"></script>
+<script type="text/javascript">
+	$.ajax({
+		url: window.HTTP_URL + 'air/monitordata/data',
+		type: 'get',
+		data: {
+			newsid: window.articlId
+		},
+		success: function (res) {
+			var data = res.data;
+			if (res.code == 200) {
+				console.log(res)
+			}
+		},
+		error: function (err) {
+			console.log(err, 'hasdataError')
+		}
+	})
+	$('#addTable').click(function () {
+		//var company = $('#company').val() || "中国国际技术智力合作有限公司";
+		//var title = $('#title').val() || "室内空气质量检测表";
+		//var date = $('#date').val();
+		var tableData = getTableData();
+		// var monitorData = { //全部数据
+		// 	'company': company,
+		// 	'title': title,
+		// 	'date': date,
+		// 	'tableData': tableData
+		// };
+		console.log(tableData)
+		addMonitorTable(tableData)//添加检测表格ajax
+	})
+	function addMonitorTable(data) { //添加检测表格ajax
+		$.ajax({
+			url: window.HTTP_URL + 'air/monitordata/addlist',
+			type: 'post',
+			data: data,
+			success: function (res) {
+				var data = res.data;
+				if (res.code == 200) {
+					console.log(res, '添加成功')
+				}
+			},
+			error: function (err) {
+				console.log(err, '添加失败')
+			}
+		})
+	}
+	function getTableData() {
+		var tableData = [];
+		var obj = {};
+		for (var i = 0; i < $('.trData').length; i++) {
+			var tdText = $('.trData').eq(i).children('td');
+			obj[i] = {
+				'newsid': window.articlId,
+				'area': tdText.eq(0).html(),
+				'pm25': tdText.eq(1).children('input').val(),
+				'co2': tdText.eq(2).children('input').val(),
+				'hchoAndCh2': tdText.eq(3).children('input').val(),
+				'vocs': tdText.eq(4).children('input').val(),
+				'type': $('.trData').eq(i).hasClass('constant') ? 1 : 0
+			};
+		}
+		tableData.push(obj);
+		return tableData;
+	}
+</script>
+
+</html>
