@@ -38,117 +38,136 @@
                     </li>
 
                 </ul>
+                <div class="pagination"></div>
             </div>
         </div>
     </div>
 </body>
+<script type="text/javascript" src="js/jquery.pagination.js"></script>
 <script type="text/javascript">
-    var minwidth = 282;
-    //resizeWidth();
-    $(top.window).resize(function (e) {
-        //resizeWidth();
-    });
+
     $(function () {
+        var minwidth = 282;
+        var totalPages = 10;
+        var pagenum = 1; //第几页 
+        var pagesize = 2; //每页显示多少条
+
+        //resizeWidth();
+        $(top.window).resize(function (e) {
+            //resizeWidth();
+        });
+
         $(".content-list").sortable({
             revert: true,
             handle: 'h2'
         });
-    });
 
-    function resizeWidth() { //窗口改变
-        if ($('#main').width() / 3 < minwidth) {
-            $('.content-item').width(($('#main').width() / 2) - 15);
-        } else {
-            $('.content-item').width(($('#main').width() / 3) - 15);
+        $('.pagination').pagination(totalPages * pagesize, {
+            items_per_page: pagesize, // 每页显示多少条记录
+            callback: function (page) {
+                console.log(page)
+            },
+            display_msg: false
+        });
+
+
+        function resizeWidth() { //窗口改变
+            if ($('#main').width() / 3 < minwidth) {
+                $('.content-item').width(($('#main').width() / 2) - 15);
+            } else {
+                $('.content-item').width(($('#main').width() / 3) - 15);
+            }
         }
-    }
-    function getList() {//获取文章列表
-        $.ajax({
-            url: window.HTTP_URL + 'air/news/list',
-            type: 'get',
-            success: function (res) {
-                var data = res.data;
-                if (res.code == 200) {
-                    var html = '';
-                    for (var i = 0; i < data.length; i++) {
-                        html += '<li class="content-list-item" data-id="' + data[i].id + '" data-index = ' + data[i].id + '><i class="icon"></i>' + data[i].title +
-                            '<span class="con-operation"><span class="addTable">添加/修改</span><span class="editArticle">编辑</span><span class="delArticle">删除</span></span>' +
-                            '</li>'
+        function getList(pagenum, pagesize) {//获取文章列表
+            $.ajax({
+                url: window.HTTP_URL + 'air/news/list?pagenum=' + pagenum + '&pagesize=' + pagesize,
+                type: 'get',
+                success: function (res) {
+                    var data = res.data.newsList;
+                    if (res.code == 200) {
+                        var html = '';
+                        totalPages = res.data.totalPages;
+                        for (var i = 0; i < data.length; i++) {
+                            html += '<li class="content-list-item" data-id="' + data[i].id + '" data-index = ' + data[i].id + '><i class="icon"></i>' + data[i].title +
+                                '<span class="con-operation"><span class="addTable">添加/修改</span><span class="editArticle">编辑</span><span class="delArticle">删除</span></span>' +
+                                '</li>'
+                        }
+                        $('#content-list').html(html);
+                        delArticle(); //添加删除事件
                     }
-                    $('#content-list').html(html)
-                    delArticle()
+                },
+                error: function (err) {
+                    console.log(err)
                 }
-            },
-            error: function (err) {
-                console.log(err)
-            }
-        })
-    }
-    getList();//获取文章列表
+            })
+        }
+        getList(pagenum, pagesize);//获取文章列表 初始显示第一页 每页显示两条
 
-    function removeList(id) { //删除文章
-        $.ajax({
-            url: window.HTTP_URL + 'air/news/del',
-            type: 'post',
-            data: {
-                id: id
-            },
-            success: function (res) {
-                var data = res.data;
-                if (res.code == 200) {
-                    console.log(res, '删除成功')
-                }
-            },
-            error: function (err) {
-                console.log(err, '删除失败')
-            }
-        })
-    }
-
-    function delArticle() {
-        $('#content-list li').bind('click', function (env) {
-            var id = $(this).attr('data-id');
-            if ($(env.target).hasClass('delArticle')) { // 删除
-                removeList(id);//删除文章
-                $(this).remove();
-            } else if ($(env.target).hasClass('editArticle')) { //编辑
-                $(window.parent.document).find('#editLi').trigger("click"); //跳转到发布文章的页面
-                //$(parent.frames["m2"]).find('#addArticle').trigger('click','edit',id);
-                parent.frames["m6"].articlId = id;
-            } else if ($(env.target).hasClass('addTable')) { //添加检测数据
-                hasdata(id, function (flag) {
-                    console.log("hasdata", flag);
-                    if (flag) { //flag为true时表示有检测数据 跳编辑
-                        $(window.parent.document).find('#editTable').trigger("click"); //跳转到添加检测数据页面
-                        parent.frames["m7"].articlId = id;
-                    } else {//flag为false时表示有检测数据 跳添加
-                        $(window.parent.document).find('#addTable').trigger("click"); //跳转到添加检测数据页面
-                        parent.frames["m3"].articlId = id;
+        function removeList(id) { //删除文章
+            $.ajax({
+                url: window.HTTP_URL + 'air/news/del',
+                type: 'post',
+                data: {
+                    id: id
+                },
+                success: function (res) {
+                    var data = res.data;
+                    if (res.code == 200) {
+                        console.log(res, '删除成功')
                     }
-                })
-                
-            }
-        })
-    }
-
-    function hasdata(id, fun) {
-        $.ajax({
-            url: window.HTTP_URL + 'air/monitordata/hasdata',
-            type: 'get',
-            data: {
-                newsid: id
-            },
-            success: function (res) {
-                var data = res.data;
-                if (res.code == 200) {
-                    fun(res.data)
+                },
+                error: function (err) {
+                    console.log(err, '删除失败')
                 }
-            },
-            error: function (err) {
-                console.log(err, 'hasdataError')
-            }
-        })
-    }
+            })
+        }
+
+        function delArticle() {
+            $('#content-list li').bind('click', function (env) {
+                var id = $(this).attr('data-id');
+                if ($(env.target).hasClass('delArticle')) { // 删除
+                    removeList(id);//删除文章
+                    $(this).remove();
+                } else if ($(env.target).hasClass('editArticle')) { //编辑
+                    $(window.parent.document).find('#editLi').trigger("click"); //跳转到发布文章的页面
+                    //$(parent.frames["m2"]).find('#addArticle').trigger('click','edit',id);
+                    parent.frames["m6"].articlId = id;
+                } else if ($(env.target).hasClass('addTable')) { //添加检测数据
+                    hasdata(id, function (flag) {
+                        console.log("hasdata", flag);
+                        if (flag) { //flag为true时表示有检测数据 跳编辑
+                            $(window.parent.document).find('#editTable').trigger("click"); //跳转到添加检测数据页面
+                            parent.frames["m7"].articlId = id;
+                        } else {//flag为false时表示有检测数据 跳添加
+                            $(window.parent.document).find('#addTable').trigger("click"); //跳转到添加检测数据页面
+                            parent.frames["m3"].articlId = id;
+                        }
+                    })
+
+                }
+            })
+        }
+
+        function hasdata(id, fun) {
+            $.ajax({
+                url: window.HTTP_URL + 'air/monitordata/hasdata',
+                type: 'get',
+                data: {
+                    newsid: id
+                },
+                success: function (res) {
+                    var data = res.data;
+                    if (res.code == 200) {
+                        fun(res.data)
+                    }
+                },
+                error: function (err) {
+                    console.log(err, 'hasdataError')
+                }
+            })
+        }
+
+    });
 
 </script>
 

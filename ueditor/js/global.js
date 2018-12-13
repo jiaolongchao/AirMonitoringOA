@@ -103,4 +103,4 @@ function resize(resizeHandle){
 	
 }
 
-window.HTTP_URL = 'http://192.168.1.9:8762/'
+window.HTTP_URL = 'http://www.shiliuyuan.club:8762/'
