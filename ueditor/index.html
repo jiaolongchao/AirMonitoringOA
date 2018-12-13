@@ -48,9 +48,9 @@
 
     $(function () {
         var minwidth = 282;
-        var totalPages = 10;
+        var totalPages = null;
         var pagenum = 1; //第几页 
-        var pagesize = 2; //每页显示多少条
+        var pagesize = 5; //每页显示多少条
 
         //resizeWidth();
         $(top.window).resize(function (e) {
@@ -62,13 +62,40 @@
             handle: 'h2'
         });
 
-        $('.pagination').pagination(totalPages * pagesize, {
-            items_per_page: pagesize, // 每页显示多少条记录
-            callback: function (page) {
-                console.log(page)
-            },
-            display_msg: false
-        });
+        function contPage(pagesize, totalPages) { //显示页码
+            $('.pagination').pagination(totalPages * pagesize, {
+                items_per_page: pagesize, // 每页显示多少条记录
+                callback: function (page) {
+                    console.log(page)
+                    showMoreList(page + 1, pagesize)
+                },
+                display_msg: false
+            });
+        }
+
+        function showMoreList(pagenum, pagesize) { //显示其它页码内容
+            $.ajax({
+                url: window.HTTP_URL + 'air/news/list?pagenum=' + pagenum + '&pagesize=' + pagesize,
+                type: 'get',
+                success: function (res) {
+                    var data = res.data.newsList;
+                    if (res.code == 200) {
+                        var html = '';
+                        totalPages = res.data.totalPages;
+                        for (var i = 0; i < data.length; i++) {
+                            html += '<li class="content-list-item" data-id="' + data[i].id + '" data-index = ' + data[i].id + '><i class="icon"></i>' + data[i].title +
+                                '<span class="con-operation"><span class="addTable">添加/修改</span><span class="editArticle">编辑</span><span class="delArticle">删除</span></span>' +
+                                '</li>'
+                        }
+                        $('#content-list').html(html);
+                        delArticle(); //添加删除事件
+                    }
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+        }
 
 
         function resizeWidth() { //窗口改变
@@ -94,6 +121,7 @@
                         }
                         $('#content-list').html(html);
                         delArticle(); //添加删除事件
+                        contPage(pagesize, totalPages);
                     }
                 },
                 error: function (err) {

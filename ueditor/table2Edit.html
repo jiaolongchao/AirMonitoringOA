@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="css/skin_/form.css" />
 	<link rel="stylesheet" type="text/css" href="css/WdatePicker.css" />
 	<link rel="stylesheet" type="text/css" href="css/skin_/table.css" />
-	<title>表格</title>
+	<title>修改检测数据</title>
 	<style>
 		.ui-table {
 			border: 1px solid #cfcfcf;
@@ -66,7 +66,10 @@
 							<th class="ui-table-thTitle">HCHO/CH2 (甲醛)</th>
 							<th class="ui-table-thTitle">VOCS (挥发性有机物)</th>
 						</tr>
-						<tr class="trData">
+						<tbody id="monitorTbody">
+
+						</tbody>
+						<!--<tr class="trData">
 							<td>室外测试值</td>
 							<td>
 								<input type="tel" />
@@ -80,8 +83,8 @@
 							<td>
 								<input type="tel" />
 							</td>
-						</tr>
-						<tr class="trData">
+						</tr> 
+							<tr class="trData">
 							<td>6层东区前台</td>
 							<td>
 								<input type="tel" />
@@ -245,7 +248,7 @@
 							<td>
 								<input type="tel" value="检测值>1.00" />
 							</td>
-						</tr>
+						</tr> -->
 					</table>
 					<div class="search-button">
 						<input class="button" type="button" value="生成检测数据" style="margin-left:0" id="addTable" />
@@ -269,6 +272,16 @@
 			var data = res.data;
 			if (res.code == 200) {
 				console.log(res)
+				var html = '';
+				for (var i = 0; i < data.length; i++) {
+					var pm25 = data[i].pm25 || '--';
+					var co2 = data[i].co2 || '--';
+					var hchoch2 = data[i].hchoch2 || '--';
+					var vocs = data[i].vocs || '--';
+					html += '<tr class="trData"><td data-id="'+ data[i].id +'">' + data[i].area + '</td><td><input type="tel" value="' + pm25 + '" /></td><td><input type="tel" value="' + co2 + '"/></td>' +
+						'<td><input type="tel" value="' + hchoch2 + '"/></td><td><input type="tel" value="' + vocs + '"/></td></tr>'
+				}
+				$('#monitorTbody').html(html);
 			}
 		},
 		error: function (err) {
@@ -291,9 +304,11 @@
 	})
 	function addMonitorTable(data) { //添加检测表格ajax
 		$.ajax({
-			url: window.HTTP_URL + 'air/monitordata/addlist',
+			url: window.HTTP_URL + 'air/monitordata/updatelist',
 			type: 'post',
-			data: data,
+			data: JSON.stringify(data),
+			dataType: 'json',
+    		contentType: 'application/json;charset=UTF-8',
 			success: function (res) {
 				var data = res.data;
 				if (res.code == 200) {
@@ -312,15 +327,16 @@
 			var tdText = $('.trData').eq(i).children('td');
 			obj[i] = {
 				'newsid': window.articlId,
+				'id':tdText.eq(0).attr('data-id'),
 				'area': tdText.eq(0).html(),
 				'pm25': tdText.eq(1).children('input').val(),
 				'co2': tdText.eq(2).children('input').val(),
-				'hchoAndCh2': tdText.eq(3).children('input').val(),
+				'hchoch2': tdText.eq(3).children('input').val(),
 				'vocs': tdText.eq(4).children('input').val(),
 				'type': $('.trData').eq(i).hasClass('constant') ? 1 : 0
 			};
+			tableData.push(obj[i]);
 		}
-		tableData.push(obj);
 		return tableData;
 	}
 </script>
