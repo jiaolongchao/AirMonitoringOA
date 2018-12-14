@@ -9,17 +9,23 @@
     <link rel="stylesheet" type="text/css" href="css/skin_/index.css" />
     <link rel="stylesheet" type="text/css" href="css/WdatePicker.css" />
     <link rel="stylesheet" type="text/css" href="css/skin_/table.css" />
+    <link rel="stylesheet" href="layer/mobile/need/layer.css">
     <title>广告管理</title>
     <style>
-        .modifyList{
-            padding:12px 0 10px 35px;
-        }
-        .activeShow{
-            display: none;
-        }
-        .button{
-            width: 78px;
-        }
+        .modifyList{ padding:12px 0 10px 35px;}
+        .activeShow{ display: none;}
+        .button{ width: 78px;}
+        .editAdve,.noAdve{cursor: pointer;}
+        .editAdveIcon{display: inline-block; vertical-align: middle; width: 12px;height: 12px; background:url(img/skin_/p01.png) no-repeat center; background-size: cover; margin-right: 3px;}
+        .noAdveIcon{display: inline-block; vertical-align: middle; width: 12px;height: 12px; background:url(img/skin_/p02.png) no-repeat center; background-size: cover; margin-right: 3px;}
+        .topCon{ width: 100%; height: 80px; position: relative; margin-bottom: 25px;}
+                                        .topCon .imgPost{ width: 140px; height: 80px; position: absolute; left: 0; top: 0;border: solid 1px #ccc; box-shadow: 2px 2px 3px #ccc; }
+                                        .topCon .imgPost img{ width: 100%; max-width: 100%;}
+                                        .topCon .textPost{ position: absolute; left: 170px; top: 3px;}
+                                        .topCon .textPost .titleT{ display:block; margin-bottom:5px;}
+                                        .topCon .textPost .urlT{display:block; margin-bottom:15px;}
+                                        .topCon .textPost .con-operation{display:block;}
+                                        .topCon .textPost .con-operation > span{ display: inline-block; margin-right: 15px;}
     </style>
 </head>
 
@@ -38,13 +44,16 @@
                         </h2>
                         <div class="content-bd" style="height:auto">
                             <ul class="content-list things" id="advertising">
-                                <li class="content-list-item">
-                                    <i class="icon"></i>查干湖冬捕壮观景象
-                                    <span class="con-operation"><span class="editAdve">修改</span><span class="noAdve">禁用</span></span>
-                                </li>
-                                <li class="content-list-item">
-                                    <i class="icon"></i>查干湖冬捕壮观景象
-                                    <span class="con-operation"><span class="editAdve">修改</span><span class="noAdve">禁用</span></span>
+                                <li class="adverList">
+                                    <div class="topCon">
+                                        <span class="imgPost"><img src="http://www.shiliuyuan.club/nginx-logo.png" alt=""
+                                                width="140" height="80"></span>
+                                        <div class="textPost">
+                                            <span class="titleT">title</span>
+                                            <span class="urlT">url</span>
+                                            <span class="con-operation"><span class="editAdve">修改</span><span class="noAdve">禁用</span></span>
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -57,29 +66,92 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/global.js"></script>
 <script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
 <script type="text/javascript" src="js/WdatePicker.js"></script>
 <script type="text/javascript">
-    var dom = '<div class="modifyList activeShow">' +
-        '<div class="subfild-content base-info">' +
-        '<div class="kv-item ue-clear">' +
-        '<label>标题</label><div class="kv-item-content"><input type="text" placeholder="标题" id="" /></div></div>' +
-        '<div class="kv-item ue-clear"><label>链接</label><div class="kv-item-content"><input type="text" placeholder="链接" id="" /></div></div>' +
-        '<div class="kv-item ue-clear"><label>图片</label><div class="kv-item-content file"><span class="text"></span><input type="file">' +
-        '<input type="button" class="button normal long2" value="浏览.."> </div></div></div>' +
-        '<div class="buttons"><input class="button saveAdve" type="button" value="保存"/></div>' +
-        '</div>'
-    $('#advertising li').append(dom);
-    $('#advertising li').bind('click', function (env) {
-        if ($(env.target).hasClass('editAdve')) {
-            console.log('editAdve')
-            $(this).find('.modifyList').toggleClass('activeShow')
-        } else if ($(env.target).hasClass('noAdve')) {
-            console.log('noAdve')
+    $.ajax({ //获取广告列表
+        url: window.HTTP_URL + 'air/ad/list',
+        type: 'get',
+        beforeSend: function (request) {
+            request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);
+        },
+        success: function (res) {
+            var data = res.data;
+            if (res.code == 200) {
+                var html = '';
+                var dom = '<div class="modifyList activeShow">' +
+                    '<div class="subfild-content base-info">' +
+                    '<div class="kv-item ue-clear">' +
+                    '<label>标题</label><div class="kv-item-content"><input type="text" placeholder="标题" id="" /></div></div>' +
+                    '<div class="kv-item ue-clear"><label>链接</label><div class="kv-item-content"><input type="text" placeholder="链接" id="" /></div></div>' +
+                    '<div class="kv-item ue-clear"><label>图片</label><div class="kv-item-content file"><span class="text"></span><input type="file">' +
+                    '<input type="button" class="button normal long2" value="浏览.."> </div></div></div>' +
+                    '<div class="buttons"><input class="button saveAdve" type="button" value="保存"/></div>' +
+                    '</div>'
+                for (var i = 0; i < data.length; i++) {
+                    var use = data[i].use ? "禁用" : "启用";
+                    html += '<li class="adverList" data-id="' + data[i].id + '" data-use="' + data[i].use + '">' +
+                        '<div class="topCon">' +
+                        '<span class="imgPost"><img src="' + data[i].img + '" alt="" width="140" height="80"></span>' +
+                        '<div class="textPost">' +
+                        '<span class="titleT">标题：' + data[i].title + '</span>' +
+                        '<span class="urlT">链接：' + data[i].link + '</span>' +
+                        '<span class="con-operation"><span class="editAdve"><i class="editAdveIcon"></i>修改</span><span class="noAdve"><i class="noAdveIcon"></i>' + use + '</span></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '</li>'
+                }
+                $('#advertising').html(html);
+                $('#advertising li').append(dom);
+                editList();
+            }
+        },
+        error: function (err) {
+            console.log(err)
         }
     })
-    $('#advertising li .saveAdve').click(function(){
-        $(this).parents('.modifyList').addClass('activeShow')
-    })
+
+    function editList() {
+        $('#advertising li').bind('click', function (env) {
+            var dataId = $(this).attr('data-id');
+            var dataUse = $(this).attr('data-use');
+            if ($(env.target).hasClass('editAdve')) {
+                console.log('editAdve')
+                $(this).find('.modifyList').toggleClass('activeShow')
+            } else if ($(env.target).hasClass('noAdve')) {
+                console.log('noAdve')
+                noAdve(dataId, dataUse)
+            }
+        })
+        $('#advertising li .saveAdve').click(function () {
+            $(this).parents('.modifyList').addClass('activeShow')
+        })
+    }
+
+    function noAdve(id, use) {
+        $.ajax({ //设置禁用启用状态
+            url: window.HTTP_URL + 'air/ad/setuse',
+            type: 'POST',
+            data: {
+                id : id,
+                isuse : use
+            },
+            beforeSend: function (request) {
+                request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);
+            },
+            success: function (res) {
+                var data = res.data;
+                if (res.code == 200) {
+                    console.log('xx')
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    }
+
+
 </script>
 
 </html>
