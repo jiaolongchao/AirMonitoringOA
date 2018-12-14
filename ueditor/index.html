@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="css/skin_/index.css" />
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/global.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.min.js"></script>
     <title>首页</title>
 </head>
@@ -51,8 +52,7 @@
         var totalPages = null;
         var pagenum = 1; //第几页 
         var pagesize = 5; //每页显示多少条
-
-        //resizeWidth();
+        
         $(top.window).resize(function (e) {
             //resizeWidth();
         });
@@ -77,6 +77,9 @@
             $.ajax({
                 url: window.HTTP_URL + 'air/news/list?pagenum=' + pagenum + '&pagesize=' + pagesize,
                 type: 'get',
+                beforeSend: function (request) {
+                    request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);
+                },
                 success: function (res) {
                     var data = res.data.newsList;
                     if (res.code == 200) {
@@ -109,6 +112,9 @@
             $.ajax({
                 url: window.HTTP_URL + 'air/news/list?pagenum=' + pagenum + '&pagesize=' + pagesize,
                 type: 'get',
+                beforeSend: function (request) {
+                    request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);
+                },
                 success: function (res) {
                     var data = res.data.newsList;
                     if (res.code == 200) {
@@ -135,6 +141,9 @@
             $.ajax({
                 url: window.HTTP_URL + 'air/news/del',
                 type: 'post',
+                beforeSend: function (request) {
+                    request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);
+                },
                 data: {
                     id: id
                 },
@@ -180,6 +189,9 @@
             $.ajax({
                 url: window.HTTP_URL + 'air/monitordata/hasdata',
                 type: 'get',
+                beforeSend: function (request) {
+                    request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);
+                },
                 data: {
                     newsid: id
                 },

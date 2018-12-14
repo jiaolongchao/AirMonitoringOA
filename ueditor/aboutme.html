@@ -56,18 +56,22 @@
 </body>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/login.js"></script>
 <script type="text/javascript" src="js/WdatePicker.js"></script>
 <script type="text/javascript">
 	$(function () {
 		$.ajax({
 			url: window.HTTP_URL + 'air/about/get',
 			type: 'get',
+			beforeSend: function (request) {
+				request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);
+			},
 			success: function (res) {
 				var data = res.data;
 				if (res.code == 200) {
 					$('#tel').val(data.tel);
 					$('#addr').val(data.addr);
-					$('#desc').val(data.desc);
+					$('#desc').val(data.description);
 				}
 			},
 			error: function (err) {
@@ -78,11 +82,14 @@
 			$.ajax({
 				url: window.HTTP_URL + 'air/about/save',
 				type: 'post',
+				beforeSend: function (request) {
+					request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);
+				},
 				data: {
 					id: 1,
 					addr: $('#addr').val(),
 					tel: $('#tel').val(),
-					desc: $('#desc').val(),
+					description: $('#desc').val(),
 				},
 				success: function (res) {
 					var data = res.data;

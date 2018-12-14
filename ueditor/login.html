@@ -1,90 +1,142 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<link rel="stylesheet" type="text/css" href="css/skin_/login.css" />
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/jquery.select.js"></script>
-<script type="text/javascript" src="js/global.js"></script>
-<title>蓝色企业数字办公后台管理模板_用户登录</title>
-</head>
 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/skin_/login.css" />
+    <link rel="stylesheet" href="layer/mobile/need/layer.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.select.js"></script>
+    <script type="text/javascript" src="layer/layer.js"></script>
+    <script type="text/javascript" src="js/global.js"></script>
+    <script type="text/javascript" src="js/md5.js"></script>
+    <title>蓝色企业数字办公后台管理模板_用户登录</title>
+</head>
 <body>
-<div id="container">
-    <div id="bd">
-    	<div id="main">
-        	<div class="login-box">
-                <div id="logo"></div>
-                <h1></h1>
-                <div class="input username" id="username">
-                    <label for="userName">用户名</label>
-                    <span></span>
-                    <input type="text" id="userName" />
-                </div>
-                <div class="input psw" id="psw">
-                    <label for="password">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
-                    <span></span>
-                    <input type="password" id="password" />
-                </div>
-                <!-- <div class="input validate" id="validate">
+    <div id="container">
+        <div id="bd">
+            <div id="main">
+                <div class="login-box">
+                    <div id="logo"></div>
+                    <h1></h1>
+                    <div class="input username" id="username">
+                        <label for="userName">用户名</label>
+                        <span></span>
+                        <input type="text" id="userName" />
+                    </div>
+                    <div class="input psw" id="psw">
+                        <label for="password">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+                        <span></span>
+                        <input type="password" id="password" />
+                    </div>
+                    <!-- <div class="input validate" id="validate">
                     <label for="valiDate">验证码</label>
                     <input type="text" id="valiDate" />
                     <div class="value">X3D5</div>
                 </div> -->
-                <div class="styleArea">
-                    <div class="styleWrap">
-                        <select name="style">
-                            <option value="默认风格">默认风格</option>
-                        </select>
+                    <div class="styleArea">
+                        <div class="styleWrap">
+                            <select name="style">
+                                <option value="默认风格">默认风格</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="btn" class="loginButton">
+                        <input type="button" class="button" value="登录" />
                     </div>
                 </div>
-                <div id="btn" class="loginButton">
-                    <input type="button" class="button" value="登录"  />
-                </div>
             </div>
+            <div id="ft">CopyRight&nbsp;2018&nbsp;&nbsp;版权所有&nbsp;&nbsp;<a href="javascript:void(0)" title=""></a> -
+                Collect from <a href="javascript:void(0)" title=""></a> &nbsp;&nbsp;</div>
         </div>
-        <div id="ft">CopyRight&nbsp;2018&nbsp;&nbsp;版权所有&nbsp;&nbsp;<a href="javascript:void(0)" title=""></a> - Collect from <a href="javascript:void(0)" title="" ></a> &nbsp;&nbsp;</div>
+
     </div>
-   
-</div>
 
 </body>
 <script type="text/javascript">
-	var height = $(window).height() > 445 ? $(window).height() : 445;
-	$("#container").height(height);
-	var bdheight = ($(window).height() - $('#bd').height()) / 2 - 20;
-	$('#bd').css('padding-top', bdheight);
-	$(window).resize(function(e) {
+    var height = $(window).height() > 445 ? $(window).height() : 445;
+    $("#container").height(height);
+    var bdheight = ($(window).height() - $('#bd').height()) / 2 - 20;
+    $('#bd').css('padding-top', bdheight);
+    $(window).resize(function (e) {
         var height = $(window).height() > 445 ? $(window).height() : 445;
-		$("#container").height(height);
-		var bdheight = ($(window).height() - $('#bd').height()) / 2 - 20;
-		$('#bd').css('padding-top', bdheight);
+        $("#container").height(height);
+        var bdheight = ($(window).height() - $('#bd').height()) / 2 - 20;
+        $('#bd').css('padding-top', bdheight);
     });
-	$('select').select();
-	
-	$('.loginButton').click(function(e) {
+    $('select').select();
+
+    var utils = {
+        setWithExpire: function (key, value, expire) { //设置token过期时间 
+            try {
+                var data = {
+                    expire: expire,
+                    start: new Date().getTime() / 1000,
+                    value: value
+                };
+                return window.localStorage.setItem(key, JSON.stringify(data));
+            }
+            catch (err) {
+                alert('不支持本地缓存');
+            }
+        },
+        loginSuccess: function (data) {
+            var token_info = data.passWord; //token
+            utils.loginClass.setToken(token_info)
+            utils.setWithExpire("LOCALSTORAGE_LOGIN", utils.loginClass, 10800)
+        },
+        loginClass: {
+            access_token: "",
+            push_msg: "登录成功",
+            source: "web",
+            setToken: function (access_token) {
+                utils.loginClass.access_token = access_token
+            }
+        },
+        // userInfo: {
+        //     userInfo: "",
+        //     coupon_info: "",
+        //     is_luxury_auth: "",
+        //     luxury_product_id: "",
+        //     fsp_luxury_auth: "",
+        //     init: function (user_info, coupon_info, is_luxury_auth, luxury_product_id, fsp_luxury_auth) {
+        //         utils.userInfo.advisor = user_info.advisor
+        //         utils.userInfo.coupon_info = coupon_info
+        //         utils.userInfo.is_luxury_auth = is_luxury_auth
+        //         utils.userInfo.luxury_product_id = luxury_product_id
+        //         utils.userInfo.fsp_luxury_auth = fsp_luxury_auth
+        //     }
+        // }
+    }
+
+    $('.loginButton').click(function (e) {
         var data = {
-            username:$('#userName').val(),
-            pwd : $('#password').val()
+            username: $('#userName').val(),
+            pwd: hex_md5($('#password').val())
         }
         $.ajax({
-			url: window.HTTP_URL + 'air/login',
-			type: 'post',
-			data: data,
-			success: function (res) {
-				var data = res.data;
-				if (res.code == 200) {
-                    console.log(res, '登录成功');
-                    document.location.href = "main.html";
-				}
-			},
-			error: function (err) {
-				console.log(err, '登录失败')
-			}
-		})
-      
+            url: window.HTTP_URL + 'air/login',
+            type: 'post',
+            data: data,
+            timeout: 10000,
+            success: function (res) {
+                var data = res.data;
+                if (res.code !== 200) {
+                    layer.msg('用户名或密码错误');
+                    return false;
+                }
+                utils.loginSuccess(data);
+                console.log(res, '登录成功');
+                document.location.href = "main.html";
+
+            },
+            error: function (err) {
+                console.log(err, '登录失败')
+            }
+        })
+
     });
 </script>
 

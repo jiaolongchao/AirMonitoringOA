@@ -8,6 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="css/skin_/form.css" />
 	<link rel="stylesheet" type="text/css" href="css/WdatePicker.css" />
 	<link rel="stylesheet" type="text/css" href="css/skin_/table.css" />
+	<link rel="stylesheet" href="layer/mobile/need/layer.css">
 	<title>修改检测数据</title>
 	<style>
 		.ui-table {
@@ -69,189 +70,9 @@
 						<tbody id="monitorTbody">
 
 						</tbody>
-						<!--<tr class="trData">
-							<td>室外测试值</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-						</tr> 
-							<tr class="trData">
-							<td>6层东区前台</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-						</tr>
-						<tr class="trData">
-							<td>6层南侧办公区</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-						</tr>
-						<tr class="trData">
-							<td>西区前台</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-						</tr>
-						<tr class="trData">
-							<td>北侧办公区</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-						</tr>
-						<tr class="trData">
-							<td>服务大厅</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-						</tr>
-						<tr class="trData">
-							<td>5B18办公区</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-						</tr>
-						<tr class="trData">
-							<td>B3值班室</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-						</tr>
-						<tr class="trData">
-							<td>室内测试平均值</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-							<td>
-								<input type="tel" />
-							</td>
-						</tr>
-						<tr class="trData constant">
-							<td>健康值</td>
-							<td>
-								<input type="tel" value="35<检测值" />
-							</td>
-							<td>
-								<input type="tel" value="1000<检测值" />
-							</td>
-							<td>
-								<input type="tel" value="0.100<检测值" />
-							</td>
-							<td>
-								<input type="tel" value="0.600<检测值" />
-							</td>
-						</tr>
-						<tr class="trData constant">
-							<td>一般值</td>
-							<td>
-								<input type="tel" value="检测值<150" />
-							</td>
-							<td>
-								<input type="tel" value="检测值<2000" />
-							</td>
-							<td>
-								<input type="tel" value="检测值<0.300" />
-							</td>
-							<td>
-								<input type="tel" value="检测值<1.00" />
-							</td>
-						</tr>
-						<tr class="trData constant">
-							<td>超标值</td>
-							<td>
-								<input type="tel" value="检测值>150" />
-							</td>
-							<td>
-								<input type="tel" value="检测值>2000" />
-							</td>
-							<td>
-								<input type="tel" value="检测值>0.300" />
-							</td>
-							<td>
-								<input type="tel" value="检测值>1.00" />
-							</td>
-						</tr> -->
 					</table>
 					<div class="search-button">
-						<input class="button" type="button" value="生成检测数据" style="margin-left:0" id="addTable" />
+						<input class="button" type="button" value="修改检测数据" style="margin-left:0" id="addTable" />
 					</div>
 				</div>
 			</div>
@@ -260,11 +81,16 @@
 </body>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
 <script type="text/javascript" src="js/WdatePicker.js"></script>
 <script type="text/javascript">
 	$.ajax({
 		url: window.HTTP_URL + 'air/monitordata/data',
 		type: 'get',
+		beforeSend: function (request) {
+			request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);
+		},
 		data: {
 			newsid: window.articlId
 		},
@@ -278,7 +104,7 @@
 					var co2 = data[i].co2 || '--';
 					var hchoch2 = data[i].hchoch2 || '--';
 					var vocs = data[i].vocs || '--';
-					html += '<tr class="trData"><td data-id="'+ data[i].id +'">' + data[i].area + '</td><td><input type="tel" value="' + pm25 + '" /></td><td><input type="tel" value="' + co2 + '"/></td>' +
+					html += '<tr class="trData"><td data-id="' + data[i].id + '">' + data[i].area + '</td><td><input type="tel" value="' + pm25 + '" /></td><td><input type="tel" value="' + co2 + '"/></td>' +
 						'<td><input type="tel" value="' + hchoch2 + '"/></td><td><input type="tel" value="' + vocs + '"/></td></tr>'
 				}
 				$('#monitorTbody').html(html);
@@ -308,15 +134,20 @@
 			type: 'post',
 			data: JSON.stringify(data),
 			dataType: 'json',
-    		contentType: 'application/json;charset=UTF-8',
+			contentType: 'application/json;charset=UTF-8',
+			beforeSend: function (request) {
+				request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);
+			},
 			success: function (res) {
 				var data = res.data;
 				if (res.code == 200) {
 					console.log(res, '添加成功')
+					layer.msg('成功修改检测数据');
 				}
 			},
 			error: function (err) {
-				console.log(err, '添加失败')
+				console.log(err, '修改检测数据失败')
+				layer.msg('修改检测数据失败');
 			}
 		})
 	}
@@ -327,7 +158,7 @@
 			var tdText = $('.trData').eq(i).children('td');
 			obj[i] = {
 				'newsid': window.articlId,
-				'id':tdText.eq(0).attr('data-id'),
+				'id': tdText.eq(0).attr('data-id'),
 				'area': tdText.eq(0).html(),
 				'pm25': tdText.eq(1).children('input').val(),
 				'co2': tdText.eq(2).children('input').val(),

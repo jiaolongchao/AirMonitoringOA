@@ -8,8 +8,11 @@
     <link rel="stylesheet" type="text/css" href="css/WdatePicker.css" />
     <link rel="stylesheet" type="text/css" href="css/skin_/form.css" />
     <link href="modules/upload/css/upload.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="layer/mobile/need/layer.css">
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/global.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
+    <script type="text/javascript" src="layer/layer.js"></script>
     <script type="text/javascript" src="modules/upload/js/ajaxfileupload.js"></script>
     <script type="text/javascript" src="js/WdatePicker.js"></script>
     <!-- 配置文件 -->
@@ -43,7 +46,7 @@
                     </div>
                     <div class="kv-item ue-clear">
                         <label>
-                            <span class="impInfo">*</span>来源</label>
+                            <span class="impInfo"></span>来源</label>
                         <div class="kv-item-content">
                             <input type="text" placeholder="作者" id="source" />
                         </div>
@@ -120,16 +123,17 @@
     function getContent() {
         return UE.getEditor('ueditor').getContent();
     }
-    
+
     $('#addArticle').click(function () {
         var title = $('#title').val();
         var content = ue.getContent();
         if (title == "" || title == undefined) {
-            $('#title-tip').html('标题不能为空');
+            //$('#title-tip').html('标题不能为空');
+            layer.msg('标题不能为空');
             return;
         }
         if (content == "") {
-            console.log('内容不能为空')
+            layer.msg('内容不能为空');
             return;
         }
 
@@ -143,14 +147,22 @@
             url: window.HTTP_URL + "air/news/add",
             type: 'POST',
             data: data,
-            success: function (res) {
-                alert('发表成功')
+            beforeSend: function (request) {
+                request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);
             },
-            error:function(err){
-
+            success: function (res) {
+                layer.msg('添加成功');
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000)
+            },
+            error: function (err) {
+                layer.msg('添加失败，请重新添加');
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000)
             }
         })
-
         console.log(data)
     })
 </script>

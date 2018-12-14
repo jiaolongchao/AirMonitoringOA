@@ -275,7 +275,7 @@
 						</tr>
 					</table>
 					<div class="search-button">
-						<input class="button" type="button" value="生成检测数据" style="margin-left:0" id="addTable" />
+						<input class="button" type="button" value="添加检测数据" style="margin-left:0" id="addTable" />
 					</div>
 				</div>
 			</div>
@@ -284,6 +284,7 @@
 </body>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/login.js"></script>
 <script type="text/javascript" src="js/WdatePicker.js"></script>
 <script type="text/javascript">
 	$('#addTable').click(function () {
@@ -306,7 +307,10 @@
 			type: 'post',
 			data: JSON.stringify(data),
 			dataType: 'json',
-    		contentType: 'application/json;charset=UTF-8',
+			contentType: 'application/json;charset=UTF-8',
+			beforeSend: function (request) {
+				request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);
+			},
 			success: function (res) {
 				var data = res.data;
 				if (res.code == 200) {
