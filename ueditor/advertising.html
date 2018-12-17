@@ -12,20 +12,89 @@
     <link rel="stylesheet" href="layer/mobile/need/layer.css">
     <title>广告管理</title>
     <style>
-        .modifyList{ padding:12px 0 10px 35px;}
-        .activeShow{ display: none;}
-        .button{ width: 78px;}
-        .editAdve,.noAdve{cursor: pointer;}
-        .editAdveIcon{display: inline-block; vertical-align: middle; width: 12px;height: 12px; background:url(img/skin_/p01.png) no-repeat center; background-size: cover; margin-right: 3px;}
-        .noAdveIcon{display: inline-block; vertical-align: middle; width: 12px;height: 12px; background:url(img/skin_/p02.png) no-repeat center; background-size: cover; margin-right: 3px;}
-        .topCon{ width: 100%; height: 80px; position: relative; margin-bottom: 25px;}
-                                        .topCon .imgPost{ width: 140px; height: 80px; position: absolute; left: 0; top: 0;border: solid 1px #ccc; box-shadow: 2px 2px 3px #ccc; }
-                                        .topCon .imgPost img{ width: 100%; max-width: 100%;}
-                                        .topCon .textPost{ position: absolute; left: 170px; top: 3px;}
-                                        .topCon .textPost .titleT{ display:block; margin-bottom:5px;}
-                                        .topCon .textPost .urlT{display:block; margin-bottom:15px;}
-                                        .topCon .textPost .con-operation{display:block;}
-                                        .topCon .textPost .con-operation > span{ display: inline-block; margin-right: 15px;}
+        .modifyList {
+            padding: 12px 0 10px 35px;
+        }
+
+        .activeShow {
+            display: none;
+        }
+
+        .button {
+            width: 78px;
+        }
+
+        .editAdve,
+        .noAdve {
+            cursor: pointer;
+        }
+
+        .editAdveIcon {
+            display: inline-block;
+            vertical-align: middle;
+            width: 12px;
+            height: 12px;
+            background: url(img/skin_/p01.png) no-repeat center;
+            background-size: cover;
+            margin-right: 3px;
+        }
+
+        .noAdveIcon {
+            display: inline-block;
+            vertical-align: middle;
+            width: 12px;
+            height: 12px;
+            background: url(img/skin_/p02.png) no-repeat center;
+            background-size: cover;
+            margin-right: 3px;
+        }
+
+        .topCon {
+            width: 100%;
+            height: 80px;
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .topCon .imgPost {
+            width: 140px;
+            height: 80px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            border: solid 1px #ccc;
+            box-shadow: 2px 2px 3px #ccc;
+        }
+
+        .topCon .imgPost img {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .topCon .textPost {
+            position: absolute;
+            left: 170px;
+            top: 3px;
+        }
+
+        .topCon .textPost .titleT {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .topCon .textPost .urlT {
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .topCon .textPost .con-operation {
+            display: block;
+        }
+
+        .topCon .textPost .con-operation>span {
+            display: inline-block;
+            margin-right: 15px;
+        }
     </style>
 </head>
 
@@ -44,7 +113,7 @@
                         </h2>
                         <div class="content-bd" style="height:auto">
                             <ul class="content-list things" id="advertising">
-                                <li class="adverList">
+                                <!-- <li class="adverList">
                                     <div class="topCon">
                                         <span class="imgPost"><img src="http://www.shiliuyuan.club/nginx-logo.png" alt=""
                                                 width="140" height="80"></span>
@@ -54,7 +123,7 @@
                                             <span class="con-operation"><span class="editAdve">修改</span><span class="noAdve">禁用</span></span>
                                         </div>
                                     </div>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </li>
@@ -82,10 +151,10 @@
                 var dom = '<div class="modifyList activeShow">' +
                     '<div class="subfild-content base-info">' +
                     '<div class="kv-item ue-clear">' +
-                    '<label>标题</label><div class="kv-item-content"><input type="text" placeholder="标题" id="" /></div></div>' +
-                    '<div class="kv-item ue-clear"><label>链接</label><div class="kv-item-content"><input type="text" placeholder="链接" id="" /></div></div>' +
-                    '<div class="kv-item ue-clear"><label>图片</label><div class="kv-item-content file"><span class="text"></span><input type="file">' +
-                    '<input type="button" class="button normal long2" value="浏览.."> </div></div></div>' +
+                    '<label>标题</label><div class="kv-item-content"><input type="text" class="titleCode" placeholder="标题" id="" /></div></div>' +
+                    '<div class="kv-item ue-clear"><label>链接</label><div class="kv-item-content"><input type="text" class="titleUrl" placeholder="链接" id="" /></div></div>' +
+                    '<div class="kv-item ue-clear"><label>图片</label><div class="kv-item-content"><input type="file" name="upfile" class="upfile FileUpload" multiple="" accept="image/jpeg,image/gif,image/png" id="FileUpload"><a class="layui-btn layui-btn-mini btn_uploadimg" id="btn_uploadimg">上传图片</a></div>' +
+                    '</div></div>' +
                     '<div class="buttons"><input class="button saveAdve" type="button" value="保存"/></div>' +
                     '</div>'
                 for (var i = 0; i < data.length; i++) {
@@ -104,12 +173,87 @@
                 $('#advertising').html(html);
                 $('#advertising li').append(dom);
                 editList();
+
+                uploadImg();
+
+                saveAdve();
+
+                // $('.upfile').addEventListener('change', function () {
+                //     var file = this.files[0];
+                //     if (file.type.indexOf("image") == 0) { // 确认选择的文件是图片 
+                //         var reader = new FileReader();
+                //         reader.readAsDataURL(file);
+
+                //         reader.onload = function (e) {// 图片base64化
+                //             var newUrl = this.result;
+                //            // ajaxFileUpload(eleFile)
+                //             //preview.style.backgroundImage = 'url(' + newUrl + ')';
+                //         };
+                //     }
+                // });
             }
         },
         error: function (err) {
             console.log(err)
         }
     })
+
+    function uploadImg() {
+        $(".btn_uploadimg").click(function () {
+            var that = $(this);
+            var fileObj = $(this).prev(".FileUpload")[0].files[0]; // js 获取文件对象
+            //var fileObj = document.getElementById("FileUpload").files[0]; 
+            if (typeof (fileObj) == "undefined" || fileObj.size <= 0) {
+                layer.msg('请选择图片');
+                return;
+            }
+            var formFile = new FormData();
+            formFile.append("action", "UploadVMKImagePath");
+            formFile.append("upfile", fileObj); //加入文件对象
+
+            var data = formFile;
+            $.ajax({
+                url: window.HTTP_URL + "air/news/upload",
+                data: data,
+                type: "Post",
+                beforeSend: function (request) {
+                    request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);
+                },
+                dataType: "json",
+                cache: false,//上传文件无需缓存
+                processData: false,//用于对data参数进行序列化处理 这里必须false
+                contentType: false, //必须
+                success: function (result) {
+                    layer.msg('上传完成!');
+                    that.parents('.adverList').find(".imgPost img").attr('src', result.data)
+                },
+            })
+        })
+    }
+
+    function saveAdve() {
+        $('.saveAdve').bind('click', function () {
+            var objLi = $(this).parents('.adverList')
+            var data = {
+                id: objLi.attr('data-id'),
+                title: objLi.find('.titleCode').val(),
+                link: objLi.find('.titleUrl').val(),
+                img: objLi.find(".imgPost img").attr('src')
+            }
+            $.ajax({
+                url: window.HTTP_URL + "/air/ad/save",
+                data: data,
+                type: "Post",
+                dataType: "json",
+                beforeSend: function (request) {
+                    request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);
+                },
+                success: function (result) {
+                    layer.msg('修改成功!');
+                },
+            })
+        })
+    }
 
     function editList() {
         $('#advertising li').bind('click', function (env) {
@@ -133,8 +277,8 @@
             url: window.HTTP_URL + 'air/ad/setuse',
             type: 'POST',
             data: {
-                id : id,
-                isuse : use
+                id: id,
+                isuse: use
             },
             beforeSend: function (request) {
                 request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);

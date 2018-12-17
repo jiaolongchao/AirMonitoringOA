@@ -103,7 +103,7 @@ function resize(resizeHandle) {
 
 }
 
-window.HTTP_URL = 'http://www.shiliuyuan.club:8762/'
+window.HTTP_URL = 'http://192.168.1.7:8123/air/'
 
 window.GLOBAL_UTILS = {
 	getWithExpire: function (key) {
