@@ -159,7 +159,7 @@
                     '</div>'
                 for (var i = 0; i < data.length; i++) {
                     var use = data[i].use ? "禁用" : "启用";
-                    html += '<li class="adverList" data-id="' + data[i].id + '" data-use="' + data[i].use + '">' +
+                    html += '<li class="adverList" data-id="' + data[i].id + '" data-use="' + data[i].isuse + '">' +
                         '<div class="topCon">' +
                         '<span class="imgPost"><img src="' + data[i].img + '" alt="" width="140" height="80"></span>' +
                         '<div class="textPost">' +
@@ -264,7 +264,8 @@
                 $(this).find('.modifyList').toggleClass('activeShow')
             } else if ($(env.target).hasClass('noAdve')) {
                 console.log('noAdve')
-                noAdve(dataId, dataUse)
+                var obj = $(this).find('.noAdve');
+                noAdve(dataId, dataUse, obj)
             }
         })
         $('#advertising li .saveAdve').click(function () {
@@ -272,21 +273,24 @@
         })
     }
 
-    function noAdve(id, use) {
+    function noAdve(id, use, obj) {
+        var isuse = use == 0 ? false : true;
         $.ajax({ //设置禁用启用状态
             url: window.HTTP_URL + 'air/ad/setuse',
             type: 'POST',
             data: {
                 id: id,
-                isuse: use
+                isuse: isuse
             },
             beforeSend: function (request) {
                 request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);
             },
             success: function (res) {
                 var data = res.data;
+                var icon = '<i class="noAdveIcon"></i>';
                 if (res.code == 200) {
-                    console.log('xx')
+                    obj.html(isuse ?  '启用' :  '禁用');
+                    layer.msg('修改成功!');
                 }
             },
             error: function (err) {
