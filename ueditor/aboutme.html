@@ -58,6 +58,7 @@
 <script type="text/javascript" src="js/global.js"></script>
 <script type="text/javascript" src="js/login.js"></script>
 <script type="text/javascript" src="js/WdatePicker.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
 <script type="text/javascript">
 	$(function () {
 		$.ajax({
@@ -95,6 +96,7 @@
 					var data = res.data;
 					if (res.code == 200) {
 						console.log('success')
+						layer.msg('修改成功!');
 					}
 				},
 				error: function (err) {
