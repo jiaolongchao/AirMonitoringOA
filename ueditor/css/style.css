@@ -111,8 +111,8 @@ textarea{height:80px; background:none;}
 
 .kv-item .file{position:relative;line-height:30px;}
 .kv-item .file input[type=file]{position:absolute;right:0px;z-index:1;width:72px;height:35px; opacity:0;filter:alpha(opacity=0);cursor:pointer;}
-.kv-item .file input[type=button]{position:absolute;right:0;top:0;width:72px;z-index:0;height:26px;border-top:none;border-bottom:none;border-radius:0;border-right:none; font-family:'Microsoft Yahei','微软雅黑';font-size:14px;}
-
+.kv-item .file input[type=button]{position:absolute;right:0;top:0;width:72px;z-index:0;height:26px;border-top:none;border-bottom:none;border-radius:0;border-right:0; font-family:'Microsoft Yahei','微软雅黑';font-size:14px;}
+.kv-item .file .btn_uploadimg{ position: absolute;right: -65px;}
 .color5{color:#a9a9a9;}
 
 /*radio样式*/
