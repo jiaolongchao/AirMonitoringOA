@@ -19,7 +19,6 @@
             <div class="user-info">
                 <a href="javascript:;" class="user-avatar"><span></span></a>
                 <span class="user-name">admin</span>
-                <a href="javascript:;" class="more-info"></a>
             </div>
             <div class="setting ue-clear">
             	<div class="setting-skin">
@@ -155,6 +154,7 @@ $('.exitDialog input[type=button]').click(function(e) {
     $('.exitDialog').Dialog('close');
 	
 	if($(this).hasClass('ok')){
+        window.localStorage.removeItem('LOCALSTORAGE_LOGIN');
 		window.location.href = "login.html"	;
 	}
 });
