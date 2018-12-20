@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/WdatePicker.css" />
+    <link rel="stylesheet" type="text/css" href="css/skin_/form.css" />
+    <link href="modules/upload/css/upload.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="layer/mobile/need/layer.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/global.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
+    <script type="text/javascript" src="layer/layer.js"></script>
+    <script type="text/javascript" src="modules/upload/js/ajaxfileupload.js"></script>
+    <script type="text/javascript" src="js/WdatePicker.js"></script>
+    <!-- 配置文件 -->
+    <script type="text/javascript" src="ueditor.config.js"></script>
+    <!-- 编辑器源码文件 -->
+    <script type="text/javascript" src="ueditor.all.js"></script>
+    <script type="text/javascript" src="lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript">
+        window.UMEDITOR_HOME_URL = 'http://192.168.1.9:8762/';  // 请换成绝对路径
+    </script>
+    <title>基础信息</title>
+</head>
+
+<body>
+    <div id="container">
+        <div id="hd">
+        </div>
+        <div id="bd">
+            <div id="main">
+                <h2 class="subfild">
+                    <span>基本信息</span>
+                </h2>
+                <div class="subfild-content base-info">
+                    <div class="kv-item ue-clear">
+                        <label>
+                            <span class="impInfo">*</span>文章标题</label>
+                        <div class="kv-item-content">
+                            <input type="text" placeholder="文章标题" id="title" />
+                        </div>
+                        <span class="kv-item-tip" id="title-tip"></span>
+                    </div>
+                    <div class="kv-item ue-clear">
+                        <label>
+                            <span class="impInfo"></span>来源</label>
+                        <div class="kv-item-content">
+                            <input type="text" placeholder="作者" id="source" />
+                        </div>
+                    </div>
+                    <div class="kv-item ue-clear time">
+                        <label>
+                            <span class="impInfo">*</span>发布时间</label>
+                        <div class="kv-item-content">
+                            <input type="text" placeholder="请选择时间" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="time" />
+                            <i class="time-icon"></i>
+                        </div>
+                        <span class="kv-item-tip error"></span>
+                    </div>
+                </div>
+
+                <h2 class="subfild">
+                    <span>主题信息</span>
+                </h2>
+
+                <div class="subfild-content remarkes-info">
+                    <div class="kv-item ue-clear">
+                        <label>
+                            <span class="impInfo">*</span>文章内容</label>
+                        <div class="kv-item-content">
+                            <!-- <textarea placeholder="文章内容" id="content" style="width:800px;height:240px;"></textarea> -->
+                            <!-- 加载编辑器的容器 -->
+                            <form action="/" method="post">
+                                <script id="ueditor" name="ueditor" type="text/plain"></script>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <input class="button" type="button" value="确认添加" id='addArticle' />
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    $('select').select();
+    showRemind('input[type=text],textarea', 'color5');
+
+    var ue = UE.getEditor('ueditor', { //实例化编辑器
+        initialFrameWidth: 800,
+        initialFrameHeight: 240
+    });
+    UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
+    UE.Editor.prototype.getActionUrl = function (action) {
+        if (action == 'uploadimage') {
+            return window.UMEDITOR_HOME_URL + 'air/fileupload?filedir=articles';
+        } else if (action == 'uploadscrawl') {
+            return window.UMEDITOR_HOME_URL + '/fileupload?filedir=articles';
+        } else if (action == 'uploadvideo') {
+            return window.UMEDITOR_HOME_URL + '/fileupload?filedir=articles';
+        } else if (action == 'uploadfile') {
+            return window.UMEDITOR_HOME_URL + '/fileupload?filedir=articles';
+        } else if (action == 'uploadfile') {
+            return window.UMEDITOR_HOME_URL + '/fileupload?filedir=articles';
+        } else if (action == 'catchimage') {
+            return window.UMEDITOR_HOME_URL + '/fileupload?filedir=articles';
+        } else {
+            return this._bkGetActionUrl.call(this, action);
+        }
+    }
+
+    //对编辑器的操作最好在编辑器ready之后再做
+    ue.ready(function () {
+        var content = $('#content').val();
+        ue.setContent(content);
+    });
+    function getContent() {
+        return UE.getEditor('ueditor').getContent();
+    }
+
+    $('#addArticle').click(function () {
+        var title = $('#title').val();
+        var content = ue.getContent();
+        if (title == "" || title == undefined) {
+            //$('#title-tip').html('标题不能为空');
+            layer.msg('标题不能为空');
+            return;
+        }
+        if (content == "") {
+            layer.msg('内容不能为空');
+            return;
+        }
+
+        var data = {
+            'title': title,
+            'source': $('#source').val(),
+            'date': $('#time').val(),
+            'content': content
+        }
+        $.ajax({ //添加文章
+            url: window.HTTP_URL + "air/news/add",
+            type: 'POST',
+            data: data,
+            beforeSend: function (request) {
+                request.setRequestHeader("spatial", LOCALSTORAGE_LOGIN.value.access_token);
+            },
+            success: function (res) {
+                layer.msg('添加成功');
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000)
+            },
+            error: function (err) {
+                layer.msg('添加失败，请重新添加');
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000)
+            }
+        })
+        console.log(data)
+    })
+</script>
+
+</html>
