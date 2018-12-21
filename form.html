@@ -21,7 +21,7 @@
     <script type="text/javascript" src="ueditor.all.js"></script>
     <script type="text/javascript" src="lang/zh-cn/zh-cn.js"></script>
     <script type="text/javascript">
-        window.UMEDITOR_HOME_URL = 'http://192.168.1.9:8762/';  // 请换成绝对路径
+        window.UMEDITOR_HOME_URL = 'https://www.shiliuyuan.club/air/';  // 请换成绝对路径
     </script>
     <title>基础信息</title>
 </head>
@@ -32,57 +32,57 @@
         </div>
         <div id="bd">
             <div id="main">
-                <h2 class="subfild">
-                    <span>基本信息</span>
-                </h2>
-                <div class="subfild-content base-info">
-                    <div class="kv-item ue-clear">
-                        <label>
-                            <span class="impInfo">*</span>文章标题</label>
-                        <div class="kv-item-content">
-                            <input type="text" placeholder="文章标题" id="title" />
+                <form id="inputForm" modelAttribute="articles" action="" method="post" enctype="multipart/form-data">
+                    <h2 class="subfild">
+                        <span>基本信息</span>
+                    </h2>
+                    <div class="subfild-content base-info">
+                        <div class="kv-item ue-clear">
+                            <label>
+                                <span class="impInfo">*</span>文章标题</label>
+                            <div class="kv-item-content">
+                                <input type="text" placeholder="文章标题" id="title" />
+                            </div>
+                            <span class="kv-item-tip" id="title-tip"></span>
                         </div>
-                        <span class="kv-item-tip" id="title-tip"></span>
-                    </div>
-                    <div class="kv-item ue-clear">
-                        <label>
-                            <span class="impInfo"></span>来源</label>
-                        <div class="kv-item-content">
-                            <input type="text" placeholder="作者" id="source" />
+                        <div class="kv-item ue-clear">
+                            <label>
+                                <span class="impInfo"></span>来源</label>
+                            <div class="kv-item-content">
+                                <input type="text" placeholder="作者" id="source" />
+                            </div>
+                        </div>
+                        <div class="kv-item ue-clear time">
+                            <label>
+                                <span class="impInfo">*</span>发布时间</label>
+                            <div class="kv-item-content">
+                                <input type="text" placeholder="请选择时间" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="time" />
+                                <i class="time-icon"></i>
+                            </div>
+                            <span class="kv-item-tip error"></span>
                         </div>
                     </div>
-                    <div class="kv-item ue-clear time">
-                        <label>
-                            <span class="impInfo">*</span>发布时间</label>
-                        <div class="kv-item-content">
-                            <input type="text" placeholder="请选择时间" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="time" />
-                            <i class="time-icon"></i>
-                        </div>
-                        <span class="kv-item-tip error"></span>
-                    </div>
-                </div>
 
-                <h2 class="subfild">
-                    <span>主题信息</span>
-                </h2>
+                    <h2 class="subfild">
+                        <span>主题信息</span>
+                    </h2>
 
-                <div class="subfild-content remarkes-info">
-                    <div class="kv-item ue-clear">
-                        <label>
-                            <span class="impInfo">*</span>文章内容</label>
-                        <div class="kv-item-content">
-                            <!-- <textarea placeholder="文章内容" id="content" style="width:800px;height:240px;"></textarea> -->
-                            <!-- 加载编辑器的容器 -->
-                            <form action="/" method="post">
+                    <div class="subfild-content remarkes-info">
+                        <div class="kv-item ue-clear">
+                            <label><span class="impInfo">*</span>文章内容</label>
+                            <div class="kv-item-content">
+                                <!-- 加载编辑器的容器 -->
                                 <script id="ueditor" name="ueditor" type="text/plain"></script>
-                            </form>
+                                <input id="content" name="content" type="hidden" value="">
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="buttons">
-                    <input class="button" type="button" value="确认添加" id='addArticle' />
-                </div>
+                    <div class="buttons">
+                        <input class="button" type="button" value="确认添加" id='addArticle' />
+                    </div>
+
+                </form>
             </div>
         </div>
     </div>
@@ -91,6 +91,8 @@
 <script type="text/javascript">
     $('select').select();
     showRemind('input[type=text],textarea', 'color5');
+
+  
 
     var ue = UE.getEditor('ueditor', { //实例化编辑器
         initialFrameWidth: 800,
