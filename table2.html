@@ -8,6 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="css/skin_/form.css" />
 	<link rel="stylesheet" type="text/css" href="css/WdatePicker.css" />
 	<link rel="stylesheet" type="text/css" href="css/skin_/table.css" />
+	<link rel="stylesheet" href="layer/mobile/need/layer.css">
 	<title>表格</title>
 	<style>
 		.ui-table {
@@ -285,6 +286,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/global.js"></script>
 <script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
 <script type="text/javascript" src="js/WdatePicker.js"></script>
 <script type="text/javascript">
 	$('#addTable').click(function () {
@@ -314,6 +316,7 @@
 			success: function (res) {
 				var data = res.data;
 				if (res.code == 200) {
+					layer.msg('添加成功');
 					console.log(res, '添加成功')
 				}
 			},

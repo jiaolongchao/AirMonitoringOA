@@ -20,7 +20,6 @@
         <div id="bd">
             <div id="main">
                 <ul class="content-list">
-
                     <li class="content-item dothings">
                         <h2 class="content-hd">
                             <!-- <span class="opt">
@@ -37,10 +36,11 @@
                             </ul>
                         </div>
                     </li>
-
                 </ul>
                 <div class="pagination"></div>
             </div>
+            <div style="clear:both"></div>
+            <span style="display:block; font-size:12px; color:#3c3c3c; padding-left:10px; padding-top:10px;">每篇文章只能对应一个表格，点击添加/修改表格，首次为添加，再次为修改表格</span>
         </div>
     </div>
 </body>
@@ -87,7 +87,7 @@
                         totalPages = res.data.totalPages;
                         for (var i = 0; i < data.length; i++) {
                             html += '<li class="content-list-item" data-id="' + data[i].id + '" data-index = ' + data[i].id + '><i class="icon"></i>' + data[i].title +
-                                '<span class="con-operation"><span class="addTable">添加/修改</span><span class="editArticle">编辑</span><span class="delArticle">删除</span></span>' +
+                                '<span class="con-operation"><span class="addTable">添加/修改表格</span><span class="editArticle">编辑</span><span class="delArticle">删除</span></span>' +
                                 '</li>'
                         }
                         $('#content-list').html(html);
@@ -122,7 +122,7 @@
                         totalPages = res.data.totalPages;
                         for (var i = 0; i < data.length; i++) {
                             html += '<li class="content-list-item" data-id="' + data[i].id + '" data-index = ' + data[i].id + '><i class="icon"></i>' + data[i].title +
-                                '<span class="con-operation"><span class="addTable">添加/修改</span><span class="editArticle">编辑</span><span class="delArticle">删除</span></span>' +
+                                '<span class="con-operation"><span class="addTable">添加/修改表格</span><span class="editArticle">编辑</span><span class="delArticle">删除</span></span>' +
                                 '</li>'
                         }
                         $('#content-list').html(html);
